@@ -105,6 +105,7 @@ const savePicture = async () => {
     runCoco();
   }, []);
 
+
   return (
     <div className="App">
       <header className="App-header">
@@ -112,33 +113,30 @@ const savePicture = async () => {
           ref={webcamRef}
           audio={false}
           videoConstraints={videoConstraints}
+          className="videoCanvas" // Apply the class here
           style={{
             position: "absolute",
-            marginLeft: "auto",
-            marginRight: "auto",
+            marginLeft:0,
+            marginRight: 0,
             left: 0,
             right: 0,
             textAlign: "center",
             zIndex: 8, // Lower zIndex for Webcam
-            width: 640,
-            height: 480,
-          }}
+          }} // Removed width and height
         />
-
+  
         <canvas
           ref={canvasRef}
-          className="videoCanvas" // Add class to Canvas
+          className="videoCanvas" // Apply the class here
           style={{
             position: "absolute",
-            marginLeft: "auto",
-            marginRight: "auto",
+            marginLeft: 0,
+            marginRight:0,
             left: 0,
             right: 0,
             textAlign: "center",
             zIndex: 9, // Higher zIndex for Canvas
-            width: 640,
-            height: 480,
-          }}
+          }} // Removed width and height
         />
 
         {/* Position the button below the webcam and canvas */}
