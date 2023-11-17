@@ -13,15 +13,24 @@
   }
 }
 
+@media (max-width: 600px) {
+  .videoCanvas {
+    max-width: 90%;
+    max-height: 90%;
+    /* Additional mobile-specific styles */
+  }
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
   font-size: calc(10px + 2vmin);
   color: white;
+  padding: 20px; /* Add some padding */
 }
 
 .App-link {
@@ -35,4 +44,35 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.button {
+  background-color: #61dafb; /* A light background */
+  color: #282c34; /* Dark text */
+  border: none;
+  padding: 10px 20px;
+  margin-top: 20px; /* Add some space above the button */
+  z-index: 10; /* Ensure it's above other elements */
+  position: relative; /* Adjust if needed */
+}
+
+@media (max-width: 600px) {
+  .videoCanvas {
+    max-width: 90%;
+    max-height: 90%;
+    /* Additional mobile-specific styles */
+  }
+}
+.videoCanvas {
+  max-width: 90%;
+  max-height: 90%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Ensure the video and canvas maintain their aspect ratio */
+video.videoCanvas, canvas.videoCanvas {
+  object-fit: contain;
 }

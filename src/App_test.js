@@ -10,11 +10,16 @@ function App() {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
   const [saveMessage, setSaveMessage] = useState('');
-  const [videoConstraints, setVideoConstraints] = useState({
-    width: 640,
-    height: 480,
+
+  // Define the webcam video constraints
+  const videoConstraints = {
+    width: { ideal: 1920 }, // You can set this to the desired width
+    height: { ideal: 1080 }, // You can set this to the desired height
     facingMode: "user"
-  });
+  };
+  
+
+
 
   // Main function to run COCO-SSD
   const runCoco = async () => {
@@ -57,45 +62,26 @@ function App() {
   };
 
 // Function to handle saving the picture
-const savePicture = async () => {
+const savePicture = () => {
   if (webcamRef.current) {
-    // Switch to full resolution
-    setVideoConstraints({
-      width: { ideal: 1920 },
-      height: { ideal: 1080 },
-      facingMode: "user"
-    });
-
-    // Wait for the webcam to adjust
-    await new Promise(resolve => setTimeout(resolve, 900));
-
-    // Capture the image
     const canvas = document.createElement('canvas');
     const video = webcamRef.current.video;
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    canvas.width = video.videoWidth; // Use the actual video width
+    canvas.height = video.videoHeight; // Use the actual video height
 
     const ctx = canvas.getContext('2d');
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
     const imageSrc = canvas.toDataURL('image/png');
 
-    // Create download link and click it
     const link = document.createElement('a');
     link.href = imageSrc;
     link.download = 'captured-image.png';
+
     link.click();
 
-    // Set save message and reset after 3 seconds
     setSaveMessage('Picture saved');
     setTimeout(() => setSaveMessage(''), 3000);
-
-    // Switch back to reduced resolution
-    setVideoConstraints({
-      width: 640,
-      height: 480,
-      facingMode: "user"
-    });
   }
 };
 
@@ -127,7 +113,6 @@ const savePicture = async () => {
 
         <canvas
           ref={canvasRef}
-          className="videoCanvas" // Add class to Canvas
           style={{
             position: "absolute",
             marginLeft: "auto",

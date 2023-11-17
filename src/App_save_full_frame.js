@@ -127,7 +127,6 @@ const savePicture = async () => {
 
         <canvas
           ref={canvasRef}
-          className="videoCanvas" // Add class to Canvas
           style={{
             position: "absolute",
             marginLeft: "auto",

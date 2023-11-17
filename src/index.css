@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+button {
+  z-index: 10; /* higher than the webcam and canvas z-index */
+  position: relative;
+}
