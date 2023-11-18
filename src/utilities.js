@@ -1,23 +1,32 @@
-export const drawRect = (detections, ctx, imgWidth, imgHeight) => {
-  // Loop through each prediction
+export const drawRect = (detections, ctx) => {
   detections.forEach(prediction => {
-    // Extract boxes and classes
-    const [x, y, width, height] = prediction['bbox']; 
-    const text = prediction['class']; 
+    const [x, y, width, height] = prediction['bbox'];
+    const text = prediction['class'];
 
-    // Set styling based on width and height comparison
-    const isWidthBig = width > 0.5 * imgWidth;
-    const isHeightBig = height > 0.5 * imgHeight;
-    ctx.strokeStyle = isWidthBig || isHeightBig ? 'green' : 'red';
+    // Define the style for the rectangle
+    ctx.strokeStyle = '#00FFFF';
+    ctx.lineWidth = 2;
+    ctx.fillStyle = '#00FFFF';
 
-    ctx.lineWidth = 5; // Set line width for the rectangles
-    ctx.font = '18px Arial';
+    // Define the radius for rounded corners
+    const cornerRadius = 6;
 
-    // Draw rectangles and text
-    ctx.beginPath();   
-    ctx.fillStyle = ctx.strokeStyle;
-    ctx.fillText(text, x, y - 10); // Adjust text position above the rectangle
-    ctx.rect(x, y, width, height); 
+    // Begin drawing
+    ctx.beginPath();
+    ctx.moveTo(x + cornerRadius, y);
+    ctx.lineTo(x + width - cornerRadius, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + cornerRadius);
+    ctx.lineTo(x + width, y + height - cornerRadius);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - cornerRadius, y + height);
+    ctx.lineTo(x + cornerRadius, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - cornerRadius);
+    ctx.lineTo(x, y + cornerRadius);
+    ctx.quadraticCurveTo(x, y, x + cornerRadius, y);
+    ctx.closePath();
     ctx.stroke();
+
+    // Draw the label
+    ctx.fillText(text, x, y - 10);
   });
-}
+};
+
