@@ -6,15 +6,23 @@ import Webcam from "react-webcam";
 import "./App.css";
 import { drawRect } from "./utilities";
 
+function isMobileDevice() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+
 function App() {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
   const [saveMessage, setSaveMessage] = useState('');
+  const mobileDevice = isMobileDevice();
   const [videoConstraints, setVideoConstraints] = useState({
     width: 640,
     height: 480,
-    facingMode: "user"
+    facingMode: mobileDevice ? "environment" : "user" // 'environment' for back camera
   });
+
+  
 
   // Main function to run COCO-SSD
   const runCoco = async () => {

@@ -81,3 +81,21 @@
 video.videoCanvas, canvas.videoCanvas {
   object-fit: contain;
 }
+
+/* App.css */
+
+.cameraButton {
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  border-radius: 50%; /* Circular shape */
+  transition: all 0.3s ease; /* Smooth transition for shape change */
+}
+
+.cameraButton.square {
+  border-radius: 0; /* Square shape */
+}
+
+.cameraButton.blue {
+  background-color: blue;
+}
