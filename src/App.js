@@ -53,7 +53,7 @@ function App() {
       setVideoConstraints({
         width: { ideal: 1920 },
         height: { ideal: 1080 },
-        facingMode: mobileDevice ? "environment" : "user"
+        facingMode: "user"
       });
   
       // Wait for the webcam to adjust
@@ -68,26 +68,39 @@ function App() {
       const ctx = canvas.getContext('2d');
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
   
-      const imageSrc = canvas.toDataURL('image/png');
+      const imageSrc = canvas.toDataURL('image/png').split(',')[1]; // Get Base64 data
   
-      // Create download link and click it
-      const link = document.createElement('a');
-      link.href = imageSrc;
-      link.download = 'captured-image.png';
-      link.click();
+      try {
+        // Send this imageSrc to your Cloud Function
+        const response = await fetch('https://us-central1-splendid-sonar-403213.cloudfunctions.net/uploadImage', {
+          method: 'POST',
+          body: JSON.stringify({ image: imageSrc }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
   
-      // Set save message and reset after 3 seconds
-      setSaveMessage('Picture saved');
-      setTimeout(() => setSaveMessage(''), 3000);
+        if (response.ok) {
+          console.log('Image uploaded successfully');
+          setSaveMessage('Picture saved to cloud');
+        } else {
+          console.error('Error uploading image');
+          setSaveMessage('Error saving image to cloud');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        setSaveMessage('Error saving image to cloud');
+      }
   
       // Switch back to reduced resolution
       setVideoConstraints({
         width: 640,
         height: 480,
-        facingMode: mobileDevice ? "environment" : "user"
+        facingMode: "user"
       });
     }
   };
+  
   
 
   useEffect(() => {
